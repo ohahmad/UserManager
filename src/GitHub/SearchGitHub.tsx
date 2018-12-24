@@ -62,10 +62,10 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
 
     public render() {
         const results = this.state.results.map(result => {
-          return <div onClick={ () => this.props.onRepositoryUrlSelected(result.url) }>User: {result.username} - Url: {result.url}</div>
+          return <div className="searchGitHub-resultitem" onClick={ () => this.props.onRepositoryUrlSelected(result.url) }>User: {result.username} - Url: {result.url}</div>
         });
         
-        return <div>
+        return <div className="searchGitHub">
             {results}
         </div>
     }
