@@ -43,7 +43,6 @@ describe("SearchGitHub component", () => {
             it("should render 2 results", () => {
                 const results = searchGitHub.find(".searchGitHub-resultitem");
                 expect(results.length).toEqual(2);
-                expect(searchGitHub.childAt(0).text()).toContain("user");
             });
 
             it("should render each result with name and url", () => {
