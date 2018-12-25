@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import HeaderProps from './IHeaderProps';
 import './Header.scss'
 
-const Header: React.SFC<HeaderProps> = ({ name }) => {
+const Header: FunctionComponent<HeaderProps> = ({ name }) => {
  return <div className="header">
             <ul className="header_userContainer">
                 <li>Hello {name}</li>
