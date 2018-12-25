@@ -23,7 +23,7 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
      public async search(searchTerm: string) : Promise<void> {
         const minimumCharRequiredToSearch = 3;
         
-        if(searchTerm.length < minimumCharRequiredToSearch || searchTerm.startsWith("https://")) {
+        if(searchTerm.length < minimumCharRequiredToSearch || searchTerm.startsWith("http")) {
             return;
         }
         
@@ -56,10 +56,6 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
         if(this.state.searchTerm !== prevState.searchTerm) {
             this.search(this.state.searchTerm);
         }
-    }
-
-    public componentDidMount() {
-        this.search(this.props.searchTerm);
     }
 
     public render() {
