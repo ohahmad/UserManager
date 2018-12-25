@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.scss';
-import CreateUserForm from "./CreateUser/CreateUserForm";
-import Header from './Header/Header';
-import Footer from './Footer/Footer';
+import CreateUserForm from "./createUser/CreateUserForm";
+import Header from './header/Header';
+import Footer from './footer/Footer';
 
 class App extends Component<{}, {}> {
   render() {

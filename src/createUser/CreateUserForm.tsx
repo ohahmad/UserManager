@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import IUser from "./interface/IUser";
 import { Gender } from "./interface/IGender";
 import {FieldName} from "./enum/FieldName";
-import SearchGitHub from "../GitHub/SearchGitHub"
+import SearchGitHub from "../gitHub/SearchGitHub"
 
 export default class CreateUserForm extends Component<{}, IUser> {
     constructor(props: {}) {
