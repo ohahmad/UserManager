@@ -6,13 +6,13 @@ import IGitHubSearchProps from "../IGitHubSearchProps";
 
 describe("SearchGitHub component", () => {
     describe("search term entered", () => {
-        describe("when search term is under three character", () => {
+        describe("when search term is under four character", () => {
             let searchGitHub: ShallowWrapper<IGitHubSearchState, IGitHubSearchProps, SearchGitHub>;
             let onRepositoryUrlSelectedMock =  jest.fn();
             beforeAll(() => {
                 fetch.resetMocks();     
                 fetch.mockResponseOnce(JSON.stringify({ data: 'does not matter' }));
-                searchGitHub = shallow(<SearchGitHub searchTerm="ab" onRepositoryUrlSelected = { onRepositoryUrlSelectedMock } ></SearchGitHub>);
+                searchGitHub = shallow(<SearchGitHub searchTerm="abc" onRepositoryUrlSelected = { onRepositoryUrlSelectedMock } ></SearchGitHub>);
                 fetch.resetMocks();
             });
             
@@ -24,10 +24,8 @@ describe("SearchGitHub component", () => {
                 expect(searchGitHub.find(".searchGitHub-resultitem").length).toBe(0);
             });
 
-            describe("when search term is over three characters", () => {
-                test((""), () => {
-
-                });
+            describe("when search term is over four characters", () => {
+                // let searchResults;
                 beforeAll(() => {        
                     fetch.resetMocks();     
                     fetch.mockResponseOnce(JSON.stringify({ items: 
@@ -47,18 +45,26 @@ describe("SearchGitHub component", () => {
                 });
     
                 it("should render 2 results", () => {
-                    const results = searchGitHub.find(".searchGitHub-resultitem");
-                    expect(results.length).toEqual(2);
+                    const searchResults = searchGitHub.find(".searchGitHub-resultItem");
+                    expect(searchResults.length).toEqual(2);
                 });
     
                 it("should render each result with name and url", () => {
-                    expect(searchGitHub.childAt(0).text()).toContain("User: user 1 - Url: url 1");
-                    expect(searchGitHub.childAt(1).text()).toContain("User: user 2 - Url: url 2");
+                    const searchResults = searchGitHub.find(".searchGitHub-resultItem");
+                    const resultItem1 = searchResults.at(0);
+                    const resultItem2 = searchResults.at(1);
+                    expect(resultItem1.childAt(0).text()).toEqual("User: user 1");
+                    expect(resultItem1.childAt(1).text()).toEqual("Url: url 1");
+                    
+                    expect(resultItem2.childAt(0).text()).toEqual("User: user 2");
+                    expect(resultItem2.childAt(1).text()).toEqual("Url: url 2");
                 });
 
                 describe("when 1st search result is clicked", () => {
                     it("should call a method on prop with url as a parameter", () => {
-                        searchGitHub.childAt(0).simulate('click');
+                        const searchResults = searchGitHub.find(".searchGitHub-resultItem");
+                        const resultItem1 = searchResults.at(0);
+                        resultItem1.simulate('click');
                         expect(onRepositoryUrlSelectedMock).toHaveBeenCalledWith("url 1");
                     });
                 });

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import IGithubSearchProps from './IGitHubSearchProps';
 import IGitHubSearchState, {IGitHubResult} from './IGithubSearchState';
+import './SearchGitHub.scss'
 
 interface IGitHubApiResponse {
     total_count: number,
@@ -12,18 +13,18 @@ interface IGitHubApiResponse {
 }
 
 export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubSearchState> {
+    private static minimumCharRequiredToSearch = 4;
     constructor(props: IGithubSearchProps) {
         super(props);
         this.state = {
             results: [],
-            searchTerm: ""
+            searchTerm: "",
+            resultsHeaderMessage: ""
         };    
     }
 
      public async search(searchTerm: string) : Promise<void> {
-        const minimumCharRequiredToSearch = 3;
-        
-        if(searchTerm.length < minimumCharRequiredToSearch || searchTerm.startsWith("http")) {
+        if(!this.isApplicableToDisplayResults(searchTerm)) {
             return;
         }
         
@@ -37,7 +38,8 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
         });
 
         this.setState({
-            results: results
+            results: results,
+            resultsHeaderMessage: results.length > 0 ? "Please select a user from below" : "Sorry - no user found match your search"
         });
     }
 
@@ -45,7 +47,8 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
         if(nextProps.searchTerm !== prevState.searchTerm) {
             return {
                 results: [],
-                searchTerm: nextProps.searchTerm
+                searchTerm: nextProps.searchTerm,
+                resultsHeaderMessage: ""
             }
         }
 
@@ -58,12 +61,23 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
         }
     }
 
+    private isApplicableToDisplayResults(searchTerm: string) {
+        return searchTerm.length >= SearchGitHub.minimumCharRequiredToSearch && 
+        !searchTerm.startsWith("http")
+    }
+
     public render() {
         const results = this.state.results.map((result, index )=> {
-          return <div key={index} className="searchGitHub-resultitem" onClick={ () => this.props.onRepositoryUrlSelected(result.url) }>User: {result.username} - Url: {result.url}</div>
+          return <div key={index} 
+                    className="searchGitHub-resultItem" 
+                    onClick={ () => this.props.onRepositoryUrlSelected(result.url) }>
+                    <div className="searchGitHub-resultItemName">User: {result.username}</div>    
+                    <div className="searchGitHub-resultItemUrl">Url: {result.url}</div>    
+                </div>
         });
         
-        return <div className="searchGitHub">
+        return <div className="searchGitHub_results">
+            <div>{this.state.resultsHeaderMessage}</div>
             {results}
         </div>
     }

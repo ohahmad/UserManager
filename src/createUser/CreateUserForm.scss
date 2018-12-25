@@ -1,0 +1,29 @@
+.creaeUserForm_container {
+    width: 60%;
+    margin: 50px auto;
+    border-radius: 8px;
+    padding: 10px 25px 50px 25px;
+    border: 1px solid gray;
+    box-shadow: 7px 7px 7px #777777;
+}
+
+.createUserForm_field {
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.createUserForm_fieldLabel {
+    border: 1px solid rgba(147, 128, 108, 0.25);
+    padding: 0.5em 0.75em;
+    background-color: rgba(147, 128, 108, 0.1);
+    color: #666666;
+}
+
+.createUserForm_fieldInput {
+    flex: 1;
+}
+
+.createUserForm_inputResultsContainer {
+    display: flex;
+    flex: 1;
+}

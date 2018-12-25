@@ -1,0 +1,16 @@
+.searchGitHub_results {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.searchGitHub-resultItem {
+    display: flex;
+}
+
+.searchGitHub-resultItemName {
+    flex: 30%
+}
+
+.searchGitHub-resultItemUrl {
+    flex: 70%
+}
