@@ -21,7 +21,6 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
     }
 
      public async search(searchTerm: string) : Promise<void> {
-        console.log("search " + searchTerm);
         const minimumCharRequiredToSearch = 3;
         
         if(searchTerm.length < minimumCharRequiredToSearch || searchTerm.startsWith("https://")) {
@@ -30,7 +29,6 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
         
         const response = await fetch("https://api.github.com/search/users?q=" + searchTerm);
         const data: IGitHubApiResponse = await response.json();
-
         const results = data.items.map(result => {
             return {
                 username: result.login,
@@ -60,9 +58,13 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
         }
     }
 
+    public componentDidMount() {
+        this.search(this.props.searchTerm);
+    }
+
     public render() {
-        const results = this.state.results.map(result => {
-          return <div className="searchGitHub-resultitem" onClick={ () => this.props.onRepositoryUrlSelected(result.url) }>User: {result.username} - Url: {result.url}</div>
+        const results = this.state.results.map((result, index )=> {
+          return <div key={index} className="searchGitHub-resultitem" onClick={ () => this.props.onRepositoryUrlSelected(result.url) }>User: {result.username} - Url: {result.url}</div>
         });
         
         return <div className="searchGitHub">
