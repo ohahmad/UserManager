@@ -1,15 +1,17 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 import SearchGitHub from '../SearchGitHub';
+import IGitHubSearchState from "../IGitHubSearchState";
+import IGitHubSearchProps from "../IGitHubSearchProps";
 
 describe("SearchGitHub component", () => {
     describe("search term entered", () => {
         describe("when search term is under three character", () => {
-            let searchGitHub;
+            let searchGitHub: ShallowWrapper<IGitHubSearchState, IGitHubSearchProps, SearchGitHub>
             beforeAll(() => {
                 fetch.resetMocks();     
                 fetch.mockResponseOnce(JSON.stringify({ data: 'does not matter' }));
-                searchGitHub = shallow(<SearchGitHub searchTerm="ab"></SearchGitHub>);
+                searchGitHub = shallow(<SearchGitHub searchTerm="ab" onRepositoryUrlSelected = { (url => {})  }></SearchGitHub>);
                 fetch.resetMocks();
             });
             
@@ -22,7 +24,7 @@ describe("SearchGitHub component", () => {
             });
         });
         describe("when search term is over three characters", () => {
-            let searchGitHub;
+            let searchGitHub: ShallowWrapper<IGitHubSearchState, IGitHubSearchProps, SearchGitHub>
             beforeEach(() => {           
                 fetch.resetMocks();     
                 fetch.mockResponseOnce(JSON.stringify({ items: 
@@ -31,7 +33,7 @@ describe("SearchGitHub component", () => {
                         { login: "user 2", url: "url 2" },
                     ] 
                 }));
-                searchGitHub = shallow(<SearchGitHub searchTerm="abcd"></SearchGitHub>);
+                searchGitHub = shallow(<SearchGitHub searchTerm="abcd" onRepositoryUrlSelected = { (url => {}) }></SearchGitHub>);
             });
             
             it("should make an API calls to the github API", () => {
@@ -40,12 +42,15 @@ describe("SearchGitHub component", () => {
 
             it("should render 2 results", () => {
                 const results = searchGitHub.find(".searchGitHub-resultitem");
-                // console.log(results.text());
                 expect(results.length).toEqual(2);
-                // const result1 = results.get(0);
-                // console.log(result1.text());
-                // expect(results.get(0).text()).toEqual(2);
-                // expect(searchGitHub.find(".searchGitHub-resultitem").length).toEqual(2);
+                expect(searchGitHub.childAt(0).text()).toContain("user");
+            });
+
+            it("should render each result with name and url", () => {
+                const results = searchGitHub.find(".searchGitHub-resultitem");
+                expect(results.length).toEqual(2);
+                expect(searchGitHub.childAt(0).text()).toContain("User: user 1 - Url: url 1");
+                expect(searchGitHub.childAt(1).text()).toContain("User: user 2 - Url: url 2");
             });
         });
     })
