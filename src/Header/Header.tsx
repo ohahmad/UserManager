@@ -1,0 +1,18 @@
+import React from 'react';
+import HeaderProps from './IHeaderProps';
+import './Header.scss'
+
+const Header: React.SFC<HeaderProps> = ({ name }) => {
+ return <div className="header">
+            <ul className="header_userContainer">
+                <li>Hello {name}</li>
+            </ul>
+            <ul className="header_linksContainer">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Users</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </div>
+}
+
+export default Header;

@@ -41,13 +41,12 @@ export default class CreateUserForm extends Component<{}, IUser> {
     render() {        
         return(
             <form>
-                <label>First Name: 
-                    <input type = "text" maxLength = {15} value={this.state.FirstName} onChange = { (event) => this.handleChange(event, FieldName.FirstName)} />
-                </label>
+                <label>First Name: </label>               
+                <input type = "text" maxLength = {15} value={this.state.FirstName} onChange = { (event) => this.handleChange(event, FieldName.FirstName)} />
 
-                <label>Repository Link: 
-                    <input type = "text" placeholder = "You can enter a url or start typing the name of the user " value={this.state.RepositoryLink} onChange = { (event) => this.handleChange(event, FieldName.RepositoryLink)} />
-                </label>
+                <label>Repository Link:</label>
+                <input type = "text" placeholder = "You can enter a url or start typing the name of the user " value={this.state.RepositoryLink} onChange = { (event) => this.handleChange(event, FieldName.RepositoryLink)} />
+                
                 <SearchGitHub searchTerm = {this.state.RepositoryLink} onRepositoryUrlSelected = { (url) => this.setState({ RepositoryLink: url }) }></SearchGitHub>
             </form>
         );
