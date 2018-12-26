@@ -1,12 +1,15 @@
 .header {
     display: flex;
     background-color: grey;
+    min-height: 50px;
     .header_userContainer {
         justify-content: flex-start;
         flex: 1;
         list-style: none;
         display: block;
         padding: 0 1em;
+        margin: 16px;
+        color: white;
     }
     .header_linksContainer {
         display: flex;
