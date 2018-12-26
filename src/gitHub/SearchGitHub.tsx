@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import IGithubSearchProps from './IGitHubSearchProps';
-import IGitHubSearchState, {IGitHubResult} from './IGithubSearchState';
+import IGithubSearchProps from './interface/IGitHubSearchProps';
+import IGitHubSearchState, {IGitHubResult} from './interface/IGithubSearchState';
 import './SearchGitHub.scss'
 
 interface IGitHubApiResponse {
