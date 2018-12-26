@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
-import IUser from "./interface/IUser";
 import { Gender } from "./interface/IGender";
 import {FieldName} from "./enum/FieldName";
 import SearchGitHub from "../gitHub/SearchGitHub"
 import './CreateUserForm.scss'
-export default class CreateUserForm extends Component<{}, IUser> {
+import ICreateUserFormState from './interface/ICreateUserFormState';
+export default class CreateUserForm extends Component<{}, ICreateUserFormState> {
     constructor(props: {}) {
         super(props);
         this.state = {
             FirstName: "",
+            FirstNameTouched: false,
             Surname: "",
+            SurnameNameTouched: false,
             Age: 0,
+            AgeTouched: false,
             Gender: Gender.PreferNotToSay,
             RepositoryLink: "",
+            RepositoryLinkTouched: false,
             Address: {
                 AddressLineOne: "", 
                 CityTown: "",
@@ -38,7 +42,7 @@ export default class CreateUserForm extends Component<{}, IUser> {
             }
             case FieldName.Age: {
                 this.setState({
-                    Age: parseInt(value)
+                    Age: value ? parseInt(value) : value as any
                 });
                 break;
             }
@@ -55,23 +59,81 @@ export default class CreateUserForm extends Component<{}, IUser> {
                 break;
             }
         }
+        
+        this.setFieldIsValid(fieldName, value);
     }
 
-    public isValid() : boolean {         
-         return this.state.FirstName !== "" 
-            && this.state.Surname !== ""
-            && this.state.Age > 0
-            && this.state.RepositoryLink != "";
-    }
-
-    public handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        debugger;
-        event.preventDefault();
-        console.log("submit clicked");
-        if(this.isValid()) {
-            // save store and eventually persist DB / storage
+    public setFieldIsValid(field: FieldName, fieldValue?: string) {     
+        if(field) {
+            switch(field) {
+                case FieldName.Surname: {
+                    const isValid = (fieldValue || this.state.Surname) !== "";
+                    this.setState({
+                        SurnameValid: isValid,
+                        SurnameNameTouched: true
+                    });
+                    break;
+                }
+                case FieldName.Age: {
+                    const parsedFieldValue = fieldValue ? parseInt(fieldValue) : null;
+                    const isValid =  (parsedFieldValue || this.state.Age) > 0;
+                    this.setState({
+                        AgeValid: isValid,
+                        AgeTouched: true
+                    });
+                    break;
+                }
+                case FieldName.RepositoryLink: {
+                    const isValid = (fieldValue || this.state.RepositoryLink) > "";
+                    this.setState({
+                        RepositoryLinkValid: isValid,
+                        RepositoryLinkTouched: true
+                    });
+                    break;
+                }
+                default : {
+                    const isValid = (fieldValue || this.state.FirstName) !== "";
+                    
+                    this.setState({
+                        FirstNameValid: isValid,
+                        FirstNameTouched: true
+                    });
+                    break;
+                }
+            }
         }
-        return false;
+        return true;
+    }
+
+    // public handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    public handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        
+        const formIsValid = this.state.FirstNameValid
+                && this.state.SurnameValid
+                && this.state.AgeValid
+                && this.state.RepositoryLinkValid;
+
+        if(formIsValid) {
+            // save store and eventually persist DB / storage
+            console.log("form is valid");
+        }
+        else {
+            console.log("form is invalid");
+            if(!this.state.FirstNameTouched) {
+                this.setFieldIsValid(FieldName.FirstName);
+            }
+            if(!this.state.SurnameNameTouched) {
+                this.setFieldIsValid(FieldName.Surname);
+            }
+            if(!this.state.AgeTouched) {
+                this.setFieldIsValid(FieldName.Age);
+            }
+            if(!this.state.RepositoryLinkTouched) {
+                this.setFieldIsValid(FieldName.RepositoryLink);
+            }
+        }
+        
     }
     
     render() { 
@@ -82,30 +144,59 @@ export default class CreateUserForm extends Component<{}, IUser> {
         handleClickof this site gives you absolutely no benefit. So, what are you waiting for!
                 </p>
 
-                <form onSubmit={(event) => this.handleSubmit(event)}>
-                    <div className="createUserForm_field">
-                        <label className="createUserForm_fieldLabel">First Name: </label>               
-                        <input className="createUserForm_fieldInput" type = "text" maxLength = {15} value={this.state.FirstName} onChange = { (event) => this.handleInput(event, FieldName.FirstName)} />
+                <form ref="createUserForm"  onSubmit={(event) => this.handleSubmit(event)}>
+                    <div className={ `createUserForm_fieldContainer ${ this.state.FirstNameTouched && !this.state.FirstNameValid ? "createUserForm_fieldContainer_error" : ""  }` }>
+                        <div className="createUserForm_field">
+                            <label className="createUserForm_fieldLabel">First Name: </label>               
+                            <input className="createUserForm_fieldInput" type = "text" 
+                                    maxLength = {15} 
+                                    value={this.state.FirstName} 
+                                    onChange = { (event) => this.handleInput(event, FieldName.FirstName)}
+                                    onBlur = { () => this.setFieldIsValid(FieldName.FirstName) } />
+                        </div>
+                       { this.state.FirstNameTouched && !this.state.FirstNameValid ? <span className="createUserForm_fieldValidationMessage">Please enter your first name</span> : null }
                     </div>
-                    <div className="createUserForm_field">
-                        <label className="createUserForm_fieldLabel">Surname: </label>               
-                        <input className="createUserForm_fieldInput" type = "text" maxLength = {15} value={this.state.Surname} onChange = { (event) => this.handleInput(event, FieldName.Surname)} />
+                    <div className={ `createUserForm_fieldContainer ${ this.state.SurnameNameTouched && !this.state.SurnameValid ? "createUserForm_fieldContainer_error" : ""  }` }>
+                        <div className="createUserForm_field">
+                            <label className="createUserForm_fieldLabel">Surname: </label>               
+                            <input className="createUserForm_fieldInput" type = "text" 
+                                    maxLength = {15} 
+                                    value={this.state.Surname} 
+                                    onChange = { (event) => this.handleInput(event, FieldName.Surname)} 
+                                    onBlur = { () => this.setFieldIsValid(FieldName.Surname) } />
+                        </div>
+                        { this.state.SurnameNameTouched && !this.state.SurnameValid ? <span className="createUserForm_fieldValidationMessage">Please enter your surname</span> : null }
                     </div>
-                    <div className="createUserForm_field">
-                        <label className="createUserForm_fieldLabel">Age: </label>               
-                        <input className="createUserForm_fieldInput" type = "number" maxLength = {3} value={this.state.Age} onChange = { (event) => this.handleInput(event, FieldName.Age)} />
+                    <div className={ `createUserForm_fieldContainer ${ this.state.AgeTouched && !this.state.AgeValid ? "createUserForm_fieldContainer_error" : ""  }` }>
+                        <div className="createUserForm_field">
+                            <label className="createUserForm_fieldLabel">Age: </label>               
+                            <input className="createUserForm_fieldInput" type = "number" 
+                                    maxLength = {3} value={this.state.Age} 
+                                    onChange = { (event) => this.handleInput(event, FieldName.Age)}
+                                    onBlur = { () => this.setFieldIsValid(FieldName.Age) } />
+                        </div>
+                        { this.state.AgeTouched && !this.state.AgeValid ? <span className="createUserForm_fieldValidationMessage">Please enter your age</span> : null }
                     </div>
-                    <div className="createUserForm_field">
-                        <label className="createUserForm_fieldLabel">Gender: </label>               
-                       <select className="createUserForm_fieldInput" onChange= { event => { this.handleInput(event, FieldName.Gender) } }>
-                            <option value="PreferNotToSay">Prefer Not To Say</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>    
+                    <div className="createUserForm_fieldContainer">
+                        <div className="createUserForm_field">
+                            <label className="createUserForm_fieldLabel">Gender: </label>               
+                        <select className="createUserForm_fieldInput" onChange= { event => { this.handleInput(event, FieldName.Gender) } }>
+                                <option value="PreferNotToSay">Prefer Not To Say</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>    
+                        </div>
                     </div>
-                    <div className="createUserForm_field">
-                        <label className="createUserForm_fieldLabel">Repository Link:</label>
-                        <input className="createUserForm_fieldInput" type = "text" placeholder = "You can enter a url or start typing the name of the user" value={this.state.RepositoryLink} onChange = { (event) => this.handleInput(event, FieldName.RepositoryLink)} />
+                    <div className={ `createUserForm_fieldContainer ${ this.state.RepositoryLinkTouched && !this.state.RepositoryLinkValid ? "createUserForm_fieldContainer_error" : ""  }` }>
+                        <div className="createUserForm_field">
+                            <label className="createUserForm_fieldLabel">Repository Link:</label>
+                            <input className="createUserForm_fieldInput" type = "text" 
+                                placeholder = "You can enter a url or start typing the name of the user" 
+                                value={this.state.RepositoryLink} 
+                                onChange = { (event) => this.handleInput(event, FieldName.RepositoryLink)}
+                                onBlur = { () => this.setFieldIsValid(FieldName.RepositoryLink) } />
+                        </div>
+                        { this.state.RepositoryLinkTouched && !this.state.RepositoryLinkValid ? <span className="createUserForm_fieldValidationMessage">Please enter your repository url</span> : null }
                     </div>
                     <SearchGitHub searchTerm = {this.state.RepositoryLink} onRepositoryUrlSelected = { (url) => this.setState({ RepositoryLink: url }) }></SearchGitHub>
                     <input type="submit" value="Create User" className="createUserForm_button"></input>

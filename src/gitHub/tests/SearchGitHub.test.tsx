@@ -1,13 +1,13 @@
 import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 import SearchGitHub from '../SearchGitHub';
-import IGitHubSearchState from "../IGitHubSearchState";
-import IGitHubSearchProps from "../IGitHubSearchProps";
+import IGitHubSearchState from "../interface/IGitHubSearchState";
+import IGitHubSearchProps from "../interface/IGitHubSearchProps";
 
 describe("SearchGitHub component", () => {
     describe("search term entered", () => {
         describe("when search term is under four character", () => {
-            let searchGitHub: ShallowWrapper<IGitHubSearchState, IGitHubSearchProps, SearchGitHub>;
+            let searchGitHub: ShallowWrapper<IGitHubSearchProps, IGitHubSearchState, SearchGitHub>;
             let onRepositoryUrlSelectedMock =  jest.fn();
             beforeAll(() => {
                 fetch.resetMocks();     
