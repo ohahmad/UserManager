@@ -27,3 +27,13 @@
     display: flex;
     flex: 1;
 }
+
+.createUserForm_button {
+    padding:5px 15px; 
+    background:rgba(147, 128, 108, 0.1);; 
+    border:1px solid rgba(147, 128, 108, 0.25);
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    color: #666666;
+}
