@@ -32,27 +32,48 @@ describe("CreateUserForm component", () => {
             });
         });
         describe("When values are entered into inputs", () => { 
-            describe("first name", () => {
+            let fieldValidationTest = (indexFieldName: number, fieldValue: string) => {
                 describe("when value is inputted", () => {
-                    it("no longer display the first name error message", () => {
-                        let firstNameInput = createUserForm.find(".createUserForm_fieldContainer").at(0).find("input").at(0);
+                    it(`no longer display the error message`, () => {
+                        let fieldInput = createUserForm.find(".createUserForm_fieldContainer").at(indexFieldName).find("input").at(0);
                         // https://github.com/airbnb/enzyme/issues/218 - enzyme doesn't support mocking currentTarget so have to manipulate dom node
-                        (firstNameInput.getDOMNode() as HTMLInputElement).value = "ommer";  
-                        firstNameInput.simulate('change');
-                        expect(createUserForm.find(".createUserForm_fieldContainer").at(0).find(".createUserForm_fieldValidationMessage").length).toEqual(0);
+                        (fieldInput.getDOMNode() as HTMLInputElement).value = fieldValue;  
+                        fieldInput.simulate('change');
+
+                        let validationMessage = createUserForm.find(".createUserForm_fieldContainer").at(indexFieldName).find(".createUserForm_fieldValidationMessage");
+                        expect(validationMessage.length).toEqual(0);
                     });
-                });
-                describe("when value is removed again", () => {
-                    it("displays the first name error message again on blur", () => {
-                        let firstNameInput = createUserForm.find(".createUserForm_fieldContainer").at(0).find("input").at(0);
-                        (firstNameInput.getDOMNode() as HTMLInputElement).value = "";  
-                        firstNameInput.simulate('change');
-                        firstNameInput.simulate('blur');
-                        expect(createUserForm.find(".createUserForm_fieldContainer").at(0).find(".createUserForm_fieldValidationMessage").length).toEqual(1);
-                    });
-                });
+
+                    describe("when value is removed again", () => {
+                        it(`displays the error message again on blur`, () => {
+                            let fieldInput = createUserForm.find(".createUserForm_fieldContainer").at(indexFieldName).find("input").at(0);
+                            (fieldInput.getDOMNode() as HTMLInputElement).value = "";  
+                            fieldInput.simulate('change');
+                            fieldInput.simulate('blur');
+                            
+                            let validationMessage = createUserForm.find(".createUserForm_fieldContainer").at(indexFieldName).find(".createUserForm_fieldValidationMessage");
+                            
+                            expect(validationMessage.length).toEqual(1);
+                        });
+                    });               
+                });                 
+            }
+
+            describe("first name", () => {
+                fieldValidationTest(0, "blob");
             });
+
+            describe("surname", () => {
+                fieldValidationTest(1, "master");
+            });  
             
+            describe("Age", () => {
+                fieldValidationTest(2, "10");
+            });  
+
+            describe("Repository Link", () => {
+                fieldValidationTest(4, "http://github.com/blah");
+            });  
         });
     });
 });

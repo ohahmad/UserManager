@@ -141,7 +141,7 @@ export default class CreateUserForm extends Component<{}, ICreateUserFormState> 
             <div className="creaeUserForm_container">
                 <h2>Create a new user</h2>
                 <p>Please fill in the details below and click 'Submit' to become a new user on this site. Becoming a member
-        handleClickof this site gives you absolutely no benefit. So, what are you waiting for!
+                    of this site gives you absolutely no benefit. So, what are you waiting for!
                 </p>
 
                 <form ref="createUserForm"  onSubmit={(event) => this.handleSubmit(event)}>
