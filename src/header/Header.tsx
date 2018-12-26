@@ -4,9 +4,6 @@ import './Header.scss'
 
 const Header: FunctionComponent<HeaderProps> = ({ name }) => {
  return <div className="header">
-            {/* <ul className="header_userContainer">
-                <li>Hello {name}</li>
-            </ul> */}
             <div className = "header_userContainer">Hello { name }!</div>
             <ul className="header_linksContainer">
                 <li><a href="#">Home</a></li>
