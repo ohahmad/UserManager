@@ -4,8 +4,14 @@ import {FieldName} from "./enum/FieldName";
 import SearchGitHub from "../gitHub/SearchGitHub"
 import './CreateUserForm.scss'
 import ICreateUserFormState from './interface/ICreateUserFormState';
-export default class CreateUserForm extends Component<{}, ICreateUserFormState> {
-    constructor(props: {}) {
+import IUser from './interface/IUser';
+
+interface ICreateUserFormProps {
+    onUserCreated: (user: IUser) => void;
+}
+
+export default class CreateUserForm extends Component<ICreateUserFormProps, ICreateUserFormState> {
+    constructor(props: ICreateUserFormProps) {
         super(props);
         this.state = {
             FirstName: "",
@@ -115,7 +121,17 @@ export default class CreateUserForm extends Component<{}, ICreateUserFormState> 
 
         if(formIsValid) {
             // save store and eventually persist DB / storage
-            console.log("form is valid");
+            console.log("CreateUserForm: calling onUserCreated")
+            const {FirstName, Surname, Age, Gender, RepositoryLink, Address} = this.state;
+            
+            this.props.onUserCreated({
+                FirstName,
+                Surname,
+                Age,
+                Gender: Gender,
+                RepositoryLink,
+                Address
+            })
         }
         else {
             console.log("form is invalid");

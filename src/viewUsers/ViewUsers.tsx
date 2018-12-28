@@ -1,52 +1,41 @@
 import React, { Component } from 'react'; 
 import './viewUsers.scss'
-export default class CreateUserForm extends Component<{}, {}> { 
+import IViewUsersProps from './interface/IViewUsersProps';
+
+
+
+export default class ViewUsers extends Component<IViewUsersProps, {}> { 
     public render() {
+        const users =   this.props.users.map((user, index) => { 
+            return  <div className="viewUsers_user" key={index}>
+            <div className="viewUsers_userIimage">
+                <img src="https://avatars0.githubusercontent.com/u/46134431?v=4"></img>
+            </div>
+            <div className="viewUsers_userField">
+                <div className="viewUsers_userFieldName">Name: </div>
+                <div className="viewUsers_userFieldValue">{user.FirstName} {user.Surname}</div>
+            </div>
+            <div className="viewUsers_userField">
+                <div className="viewUsers_userFieldName">Age: </div>
+                <div className="viewUsers_userFieldValue">{user.Age}</div>
+            </div>
+            <div className="viewUsers_userField">
+                <div className="viewUsers_userFieldName">Gender: </div>
+                <div className="viewUsers_userFieldValue">{user.Gender}</div>
+            </div>
+            <div className="viewUsers_userField">
+                <div className="viewUsers_userFieldName">Repository link: </div>
+                <div className="viewUsers_userFieldValue"><a href={user.RepositoryLink} title={user.RepositoryLink}>{user.RepositoryLink}</a></div>
+            </div>
+        </div>
+        });
+        
+        console.log("RENDER VIEW USERS:")
+        console.log(this.props.users);
         return <div className="viewUsers">
                     <h2>Latest users appear here</h2>
                     <div className="viewUsersContainer">
-                        <div className="viewUsers_user">
-                            <div className="viewUsers_userIimage">
-                                <img src="https://avatars0.githubusercontent.com/u/46134431?v=4"></img>
-                            </div>
-                            <div className="viewUsers_userField">
-                                <div className="viewUsers_userFieldName">Name: </div>
-                                <div className="viewUsers_userFieldValue">Ommer Ahmad</div>
-                            </div>
-                            <div className="viewUsers_userField">
-                                <div className="viewUsers_userFieldName">Age: </div>
-                                <div className="viewUsers_userFieldValue">70</div>
-                            </div>
-                            <div className="viewUsers_userField">
-                                <div className="viewUsers_userFieldName">Gender: </div>
-                                <div className="viewUsers_userFieldValue">Prefer not to say</div>
-                            </div>
-                            <div className="viewUsers_userField">
-                                <div className="viewUsers_userFieldName">Repository link: </div>
-                                <div className="viewUsers_userFieldValue"><a href="https://github.com/ohahmad" title="https://github.com/ohahmad">https://github.com/ohahmad</a></div>
-                            </div>
-                        </div>
-                        <div className="viewUsers_user">
-                            <div className="viewUsers_userIimage">
-                                <img src="https://avatars0.githubusercontent.com/u/46134431?v=4"></img>
-                            </div>
-                            <div className="viewUsers_userField">
-                                <div className="viewUsers_userFieldName">Name: </div>
-                                <div className="viewUsers_userFieldValue">Ommer Ahmad</div>
-                            </div>
-                            <div className="viewUsers_userField">
-                                <div className="viewUsers_userFieldName">Age: </div>
-                                <div className="viewUsers_userFieldValue">70</div>
-                            </div>
-                            <div className="viewUsers_userField">
-                                <div className="viewUsers_userFieldName">Gender: </div>
-                                <div className="viewUsers_userFieldValue">Prefer not to say</div>
-                            </div>
-                            <div className="viewUsers_userField">
-                                <div className="viewUsers_userFieldName">Repository link: </div>
-                                <div className="viewUsers_userFieldValue"><a href="https://github.com/ohahmad" title="https://github.com/ohahmad">https://github.com/ohahmad</a></div>
-                            </div>
-                        </div>
+                        {users}
                     </div>
         </div>
     }
