@@ -5,7 +5,7 @@ import './SearchGitHub.scss'
 
 interface IGitHubApiResponse {
     total_count: number,
-    incomplete_results: false,
+    incomplete_results: boolean,
     items: [{
         login: string,
         url: string
@@ -14,6 +14,7 @@ interface IGitHubApiResponse {
 
 export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubSearchState> {
     private static minimumCharRequiredToSearch = 4;
+
     constructor(props: IGithubSearchProps) {
         super(props);
         this.state = {
@@ -23,7 +24,7 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
         };    
     }
 
-     public async search(searchTerm: string) : Promise<void> {
+    private async search(searchTerm: string) : Promise<void> {
         if(!this.isApplicableToDisplayResults(searchTerm)) {
             return;
         }

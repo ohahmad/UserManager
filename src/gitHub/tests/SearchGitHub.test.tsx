@@ -6,7 +6,7 @@ import IGitHubSearchProps from "../interface/IGitHubSearchProps";
 
 describe("SearchGitHub component", () => {
     describe("search term entered", () => {
-        describe("when search term is under four character", () => {
+        describe("when search term is under four characters", () => {
             let searchGitHub: ShallowWrapper<IGitHubSearchProps, IGitHubSearchState, SearchGitHub>;
             let onRepositoryUrlSelectedMock =  jest.fn();
             beforeAll(() => {
@@ -24,7 +24,7 @@ describe("SearchGitHub component", () => {
                 expect(searchGitHub.find(".searchGitHub-resultitem").length).toBe(0);
             });
 
-            describe("when search term is over four characters", () => {
+            describe("when search term is four characters or over", () => {
                 // let searchResults;
                 beforeAll(() => {        
                     fetch.resetMocks();     

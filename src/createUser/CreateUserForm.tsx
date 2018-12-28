@@ -25,7 +25,7 @@ export default class CreateUserForm extends Component<{}, ICreateUserFormState> 
         };    
     }
 
-    handleInput(event: React.FormEvent<HTMLInputElement | HTMLSelectElement>, fieldName: FieldName) {
+    private handleInput(event: React.FormEvent<HTMLInputElement | HTMLSelectElement>, fieldName: FieldName) {
         const value = event.currentTarget.value;
         switch(fieldName) {
             case FieldName.FirstName: {
@@ -63,7 +63,7 @@ export default class CreateUserForm extends Component<{}, ICreateUserFormState> 
         this.setFieldIsValid(fieldName, value);
     }
 
-    public setFieldIsValid(field: FieldName, fieldValue?: string) {     
+    private setFieldIsValid(field: FieldName, fieldValue?: string) {     
         if(field) {
             switch(field) {
                 case FieldName.Surname: {
@@ -105,8 +105,7 @@ export default class CreateUserForm extends Component<{}, ICreateUserFormState> 
         return true;
     }
 
-    // public handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    public handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    private handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         
         const formIsValid = this.state.FirstNameValid
