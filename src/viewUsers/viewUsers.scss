@@ -1,0 +1,36 @@
+
+.viewUsersContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.viewUsers_user {
+    padding-top: 15px;
+}
+
+.viewUsers_userField {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 10px;
+}
+
+.viewUsers_userFieldName {
+    font-weight: 600;
+    padding-right: 5px;
+    color: #666666;
+    flex: 0 0 40%;
+}
+
+.viewUsers_userFieldValue {
+    color: #0062cc;
+    flex: 0 1 60%;
+    word-break: break-all;
+}
+
+.viewUsers_userIimage img {
+    max-width: 150px;
+}
+
+.viewUsers_user {
+    border-bottom: 1px #666666 solid;
+}

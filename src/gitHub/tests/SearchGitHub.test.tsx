@@ -30,8 +30,8 @@ describe("SearchGitHub component", () => {
                     fetch.resetMocks();     
                     fetch.mockResponseOnce(JSON.stringify({ items: 
                         [ 
-                            { login: "user 1", url: "url 1" },
-                            { login: "user 2", url: "url 2" },
+                            { login: "user 1", html_url: "url 1" },
+                            { login: "user 2", html_url: "url 2" },
                         ] 
                     }));                    
 

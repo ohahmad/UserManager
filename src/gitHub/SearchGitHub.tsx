@@ -8,7 +8,7 @@ interface IGitHubApiResponse {
     incomplete_results: boolean,
     items: [{
         login: string,
-        url: string
+        html_url: string
     }]
 }
 
@@ -34,7 +34,7 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
         const results = data.items.map(result => {
             return {
                 username: result.login,
-                url: result.url
+                url: result.html_url
             } as IGitHubResult;            
         });
 

@@ -3,6 +3,7 @@ import './App.scss';
 import CreateUserForm from "./createUser/CreateUserForm";
 import Header from './header/Header';
 import Footer from './footer/Footer';
+import ViewUsers from './viewUsers/ViewUsers';
 
 class App extends Component<{}, {}> {
   render() {
@@ -18,8 +19,7 @@ class App extends Component<{}, {}> {
             <p>Put your content here</p>
           </aside>
           <aside className="contentSidebar contentSidebarRight">
-              <h2>Right Sidebar</h2>
-              <p>Put your content here</p>
+              <ViewUsers></ViewUsers>
           </aside>
         </div>
         <Footer></Footer>
