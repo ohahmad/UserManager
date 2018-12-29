@@ -1,12 +1,16 @@
 import React from 'react';
-import {shallow, mount, ReactWrapper} from 'enzyme';
+import {mount, ReactWrapper} from 'enzyme';
 import CreateUserForm from '../CreateUserForm';
 import ICreateUserFormState from '../interface/ICreateUserFormState';
+import IUser from '../interface/IUser';
+import { Gender } from '../interface/IGender';
+import ICreateUserFormProps from '../interface/ICreateUserFormProps';
 
 describe("CreateUserForm component", () => {
     describe("form validation", () => {
-        let createUserForm: ReactWrapper<{}, ICreateUserFormState, CreateUserForm>;        
-        createUserForm = mount(<CreateUserForm></CreateUserForm>);
+        let onUserCreatedMock =  jest.fn();
+        let createUserForm: ReactWrapper<ICreateUserFormProps, ICreateUserFormState, CreateUserForm>;        
+        createUserForm = mount(<CreateUserForm onUserCreated={ onUserCreatedMock }></CreateUserForm>);
         describe("When initial form is loaded", () => {
             it("should not display any error messages", () => {
                 expect(createUserForm.find(".createUserForm_fieldValidationMessage").length).toEqual(0);
@@ -74,6 +78,43 @@ describe("CreateUserForm component", () => {
             describe("Repository Link", () => {
                 fieldValidationTest(4, "http://github.com/blah");
             });  
+        });
+        describe("when a valid form is submitted", () => {
+            let addValueToField = (indexOfField: number, fieldValue: string) => {
+                let fieldContainers = createUserForm.find(".createUserForm_fieldContainer");
+                let input = fieldContainers.at(indexOfField).find("input").at(0);
+                (input.getDOMNode() as HTMLInputElement).value = fieldValue;  
+                input.simulate('change');
+            }
+            let user: IUser = {
+                FirstName: "my first name",
+                Surname: "my sur name",
+                Age: 30,
+                Gender: Gender.PreferNotToSay,
+                RepositoryLink: "http://www.github.com/repo",
+                AvatarUrl : "http://www.github.com/avatar", 
+                Address: {
+                    AddressLineOne: "", 
+                    CityTown: "",
+                    PostCode: ""
+                }
+            }
+            beforeAll(() => {
+                addValueToField(0, user.FirstName);
+                addValueToField(1, user.Surname);
+                addValueToField(2, user.Age.toString());
+                addValueToField(4, user.RepositoryLink);
+
+                // not calling search API so can mock that response to set avatar URL
+                createUserForm.setState({
+                    AvatarUrl: user.AvatarUrl
+                });
+            });
+
+            it("should call the onUserCreated with user data", () => {
+                createUserForm.find('form').at(0).simulate('submit');
+                expect(onUserCreatedMock).toHaveBeenCalledWith(user);
+            });
         });
     });
 });

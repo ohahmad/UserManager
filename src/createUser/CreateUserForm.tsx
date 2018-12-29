@@ -4,11 +4,8 @@ import {FieldName} from "./enum/FieldName";
 import SearchGitHub from "../gitHub/SearchGitHub"
 import './CreateUserForm.scss'
 import ICreateUserFormState from './interface/ICreateUserFormState';
-import IUser from './interface/IUser';
+import ICreateUserFormProps from './interface/ICreateUserFormProps';
 
-interface ICreateUserFormProps {
-    onUserCreated: (user: IUser) => void;
-}
 
 export default class CreateUserForm extends Component<ICreateUserFormProps, ICreateUserFormState> {
     constructor(props: ICreateUserFormProps) {
@@ -70,7 +67,8 @@ export default class CreateUserForm extends Component<ICreateUserFormProps, ICre
         this.setFieldIsValid(fieldName, value);
     }
 
-    private setFieldIsValid(field: FieldName, fieldValue?: string) {     
+    private setFieldIsValid(field: FieldName, fieldValue?: string) {    
+        console.log("setFieldIsValid field: " + field + " value:" + fieldValue); 
         if(field) {
             switch(field) {
                 case FieldName.Surname: {
@@ -113,6 +111,7 @@ export default class CreateUserForm extends Component<ICreateUserFormProps, ICre
     }
 
     private handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        console.log("handle submit called");
         event.preventDefault();
         
         const formIsValid = this.state.FirstNameValid
