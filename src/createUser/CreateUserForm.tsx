@@ -23,6 +23,7 @@ export default class CreateUserForm extends Component<ICreateUserFormProps, ICre
             Gender: Gender.PreferNotToSay,
             RepositoryLink: "",
             RepositoryLinkTouched: false,
+            AvatarUrl: "",
             Address: {
                 AddressLineOne: "", 
                 CityTown: "",
@@ -122,7 +123,7 @@ export default class CreateUserForm extends Component<ICreateUserFormProps, ICre
         if(formIsValid) {
             // save store and eventually persist DB / storage
             console.log("CreateUserForm: calling onUserCreated")
-            const {FirstName, Surname, Age, Gender, RepositoryLink, Address} = this.state;
+            const {FirstName, Surname, Age, Gender, RepositoryLink, Address, AvatarUrl} = this.state;
             
             this.props.onUserCreated({
                 FirstName,
@@ -130,7 +131,8 @@ export default class CreateUserForm extends Component<ICreateUserFormProps, ICre
                 Age,
                 Gender: Gender,
                 RepositoryLink,
-                Address
+                Address,
+                AvatarUrl
             })
         }
         else {
@@ -213,7 +215,7 @@ export default class CreateUserForm extends Component<ICreateUserFormProps, ICre
                         </div>
                         { this.state.RepositoryLinkTouched && !this.state.RepositoryLinkValid ? <span className="createUserForm_fieldValidationMessage">Please enter your repository url</span> : null }
                     </div>
-                    <SearchGitHub searchTerm = {this.state.RepositoryLink} onRepositoryUrlSelected = { (url) => this.setState({ RepositoryLink: url }) }></SearchGitHub>
+                    <SearchGitHub searchTerm = {this.state.RepositoryLink} onRepositoryUrlSelected = { (url, avatarUrl) => this.setState({ RepositoryLink: url, AvatarUrl: avatarUrl }) }></SearchGitHub>
                     <input type="submit" value="Create User" className="createUserForm_button"></input>
                 </form>
             </div>

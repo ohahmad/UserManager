@@ -7,5 +7,6 @@ export default interface IUser {
     Age: number,
     Gender: Gender,
     Address: IAddress,
-    RepositoryLink: string
+    RepositoryLink: string,
+    AvatarUrl: string
 }

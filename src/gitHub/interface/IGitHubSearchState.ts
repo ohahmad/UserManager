@@ -6,5 +6,6 @@ export default interface IGitHubSearchState {
 
 export interface IGitHubResult {
     username: string,
-    url: string 
+    url: string,
+    avatar_url: string
 }

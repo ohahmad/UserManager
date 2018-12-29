@@ -9,7 +9,7 @@ export default class ViewUsers extends Component<IViewUsersProps, {}> {
         const users =   this.props.users.map((user, index) => { 
             return  <div className="viewUsers_user" key={index}>
             <div className="viewUsers_userIimage">
-                <img src="https://avatars0.githubusercontent.com/u/46134431?v=4"></img>
+                <img src={ user.AvatarUrl ? user.AvatarUrl : "https://avatars0.githubusercontent.com/u/46134431?v=4"}></img>
             </div>
             <div className="viewUsers_userField">
                 <div className="viewUsers_userFieldName">Name: </div>
@@ -30,8 +30,6 @@ export default class ViewUsers extends Component<IViewUsersProps, {}> {
         </div>
         });
         
-        console.log("RENDER VIEW USERS:")
-        console.log(this.props.users);
         return <div className="viewUsers">
                     <h2>Latest users appear here</h2>
                     <div className="viewUsersContainer">

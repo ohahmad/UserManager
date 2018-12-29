@@ -8,7 +8,8 @@ interface IGitHubApiResponse {
     incomplete_results: boolean,
     items: [{
         login: string,
-        html_url: string
+        html_url: string,
+        avatar_url: string
     }]
 }
 
@@ -34,7 +35,8 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
         const results = data.items.map(result => {
             return {
                 username: result.login,
-                url: result.html_url
+                url: result.html_url,
+                avatar_url: result.avatar_url
             } as IGitHubResult;            
         });
 
@@ -71,7 +73,7 @@ export default class SearchGitHub extends Component<IGithubSearchProps, IGitHubS
         const results = this.state.results.map((result, index )=> {
           return <div key={index} 
                     className="searchGitHub-resultItem" 
-                    onClick={ () => this.props.onRepositoryUrlSelected(result.url) }>
+                    onClick={ () => this.props.onRepositoryUrlSelected(result.url, result.avatar_url) }>
                     <div className="searchGitHub-resultItemName">User: {result.username}</div>    
                     <div className="searchGitHub-resultItemUrl">Url: {result.url}</div>    
                 </div>

@@ -1,5 +1,5 @@
 export enum Gender {
-    Male,
-    Female,
-    PreferNotToSay
+    Male ="Male",
+    Female = "Female",
+    PreferNotToSay = "Prefer Not To Say"
 }
